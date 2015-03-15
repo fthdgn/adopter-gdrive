@@ -9,6 +9,11 @@ For more detailed information: https://support.google.com/a/answer/6008339?hl=en
 Google Apps Script is a cloud based scripting language for light-weight application development in the Google Apps platform.
 For more information: https://developers.google.com/apps-script/
 
+## What does this?
+ * Creates a starred Folder names "Lost+Found".
+ * Iterates all files and folders which belongs you, or shared to you.
+ * If this file or folder is not in your "My Drive" or "Lost+Found", adds it to "Lost+Found"
+
 ### How can I develope this script
  * Go to [this link](https://script.google.com/) and create a blank App Script file.
  * Paste this source code on your App Script file.
