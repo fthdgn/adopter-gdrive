@@ -24,14 +24,14 @@ For more information: https://developers.google.com/apps-script/
  * Now you can run your code.
 
 ### I just want to use it
-The script does not have a interface yet.
+The script does not have an interface yet.
  * You can go to [my own release script](https://drive.google.com/open?id=1mtd2qRER9befN1AzokqjOMHZMFC5uSpViuD83FVpdG4m50WhxsL8f7Wf&authuser=0)
- * Select funtion main.
+ * Select main function.
  * Click the run button. 
  * It will run. You can close your page. 
  * If you want to run this script periodically
- * Go to Resources menu
- * Click "Current Project's triggers"
- * Add a time-driven trigger.
+  * Go to Resources menu
+  * Click "Current Project's triggers"
+  * Add a time-driven trigger.
 
 P.S. This link is my own script file which is I will release bug fixes and enchantments. I will not add any code to delete file or send them somewhere else.
