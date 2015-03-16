@@ -2,7 +2,7 @@
 This is a Google Apps Script which finds orphan files and folders on one's Google Drive.
 
 ### What is an orphaned file?
-If an item in Google Drive loses all of its parent folders, it becomes an orphan. The item still exists, but it may be a little harder to find.
+If an item in Google Drive loses all of its parent folders, it becomes an orphan. The item still exists, but it may be a little hard to find.
 For more detailed information: https://support.google.com/a/answer/6008339?hl=en
 
 ### What is Google Apps Script
@@ -17,7 +17,7 @@ For more information: https://developers.google.com/apps-script/
 ### How can I develope this script
  * Go to [this link](https://script.google.com/) and create a blank App Script file.
  * Paste this source code on your App Script file.
- * Click Resources menu, the click Advanced Google Services.
+ * Click Resources menu, then click Advanced Google Services.
  * Turn on Drive API
  * Follow "These services must also be enabled in the Google Developers Console." link
  * Turn on Drive API from here also.
