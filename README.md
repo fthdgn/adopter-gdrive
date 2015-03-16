@@ -14,7 +14,13 @@ For more information: https://developers.google.com/apps-script/
  * Iterates all files and folders which belongs you, or shared to you.
  * If this file or folder is not in your "My Drive" or "Lost+Found", adds it to "Lost+Found"
 
-### How can I develope this script
+### How can use it.
+ * Go to [this link](https://script.google.com/macros/s/AKfycby7g--KZ2DsuCbxL3mOqChgi0Yg8KJLBM1_87C6N3juwJZMv1zF/exec) and authorize it.
+ * The script will be run periodically on each 12 hours.
+ * You can found your rescued files on "Lost+Found" folder on your [Starred](https://drive.google.com/drive/#starred) section on Google Drive.
+ * If you want to de-authorize the script visit [Account Permission](https://security.google.com/settings/security/permissions) on Google Account.
+
+### I want to run my script. How can I do it?
  * Go to [this link](https://script.google.com/) and create a blank App Script file.
  * Paste this source code on your App Script file.
  * Click Resources menu, then click Advanced Google Services.
@@ -22,16 +28,3 @@ For more information: https://developers.google.com/apps-script/
  * Follow "These services must also be enabled in the Google Developers Console." link
  * Turn on Drive API from here also.
  * Now you can run your code.
-
-### I just want to use it
-The script does not have an interface yet.
- * You can go to [my own release script](https://drive.google.com/open?id=1mtd2qRER9befN1AzokqjOMHZMFC5uSpViuD83FVpdG4m50WhxsL8f7Wf&authuser=0)
- * Select main function.
- * Click the run button. 
- * It will run. You can close your page. 
- * If you want to run this script periodically
-  * Go to Resources menu
-  * Click "Current Project's triggers"
-  * Add a time-driven trigger.
-
-P.S. This link is my own script file which is I will release bug fixes and enchantments. I will not add any code to delete file or send them somewhere else.
