@@ -18,7 +18,7 @@ For more information: https://developers.google.com/apps-script/
  * Go to [this link](https://script.google.com/macros/s/AKfycby7g--KZ2DsuCbxL3mOqChgi0Yg8KJLBM1_87C6N3juwJZMv1zF/exec) and authorize it.
  * The script will be run periodically on each 12 hours.
  * You can found your rescued files on "Lost+Found" folder on your [Starred](https://drive.google.com/drive/#starred) section on Google Drive.
- * If you want to de-authorize the script visit [Account Permission](https://security.google.com/settings/security/permissions) on Google Account.
+ * If you want to de-authorize the script visit [this link](https://script.google.com/macros/d/M34QqyYeiUPsx34wIV8tjARf4lvhlP8BT/manage/uninstall)
 
 ### I want to run my script. How can I do it?
  * Go to [this link](https://script.google.com/) and create a blank App Script file.
