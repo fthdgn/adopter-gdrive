@@ -1,19 +1,23 @@
 function doGet() {
-  var isFirstRun = PropertiesService.getUserProperties().getProperty("isFirstRun");
+  var triggers = ScriptApp.getProjectTriggers();
   
-  if (isFirstRun != "no"){
-    ScriptApp.newTrigger('main')
-    .timeBased()
-    .everyHours(12)
-    .create();
-    
-    ScriptApp.newTrigger('main')
-    .timeBased()
-    .after(100)
-    .create();
-    
-    PropertiesService.getUserProperties().setProperty("isFirstRun", "no");
+  var count = 0;
+  
+  for (var count = 0; count < triggers.length; count++){
+    ScriptApp.deleteTrigger(triggers[count]); 
   }
+  
+  ScriptApp.newTrigger('main')
+  .timeBased()
+  .after(1)
+  .create();
+  
+  
+  ScriptApp.newTrigger('main')
+  .timeBased()
+  .everyHours(12)
+  .create();
+  
   
   return HtmlService.createHtmlOutputFromFile('index')
   .setSandboxMode(HtmlService.SandboxMode.IFRAME);
@@ -29,13 +33,12 @@ function main() {
   
   try {
     lostfound = DriveApp.getFolderById(lostfoundid);
-    if (lostfound.isTrashed())
-      var i = 5/0;
+    lostfound.setTrashed(false);
   }
   catch (e) {
     lostfound = DriveApp.createFolder("Lost+Found");
     lostfound.setStarred(true);
-    Drive.Parents.remove(lostfound.getId(), root.getId());
+    root.removeFolder(lostfound);
     lostfoundid = lostfound.getId();
     PropertiesService.getUserProperties().setProperty("lostfoundid", lostfoundid);
   }
@@ -133,6 +136,11 @@ function check(id, isFile, root, lostfound, user) {
       
     }
   }
-  Drive.Parents.insert( { "id": lostfound.getId() } , id);
+  
+  if(isFile)
+    lostfound.addFile(f);
+  else
+    lostfound.addFolder(f);
+  
   return true;
 }

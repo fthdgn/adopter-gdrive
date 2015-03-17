@@ -22,9 +22,5 @@ For more information: https://developers.google.com/apps-script/
 
 ### I want to run my script. How can I do it?
  * Go to [this link](https://script.google.com/) and create a blank App Script file.
- * Paste this source code on your App Script file.
- * Click Resources menu, then click Advanced Google Services.
- * Turn on Drive API
- * Follow "These services must also be enabled in the Google Developers Console." link
- * Turn on Drive API from here also.
+ * Paste this source code on your Apps Script file.
  * Now you can run your code.
