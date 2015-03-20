@@ -1,29 +1,22 @@
 function doGet() {
-  var triggers = ScriptApp.getProjectTriggers();
-  
-  var count = 0;
-  
-  for (var count = 0; count < triggers.length; count++){
-    ScriptApp.deleteTrigger(triggers[count]); 
-  }
-  
+ 
   ScriptApp.newTrigger('main')
   .timeBased()
-  .after(1)
+  .after(10)
   .create();
-  
-  
-  ScriptApp.newTrigger('main')
-  .timeBased()
-  .everyHours(12)
-  .create();
-  
   
   return HtmlService.createHtmlOutputFromFile('index')
   .setSandboxMode(HtmlService.SandboxMode.IFRAME);
 }
 
 function main() { 
+  var time = new Date();
+  var startTime = time.getTime();
+  var triggers = ScriptApp.getProjectTriggers();
+  for (var count = 0; count < triggers.length; count++){
+    ScriptApp.deleteTrigger(triggers[count]); 
+  }
+  
   var user = Session.getActiveUser().getEmail();
   var root = DriveApp.getRootFolder(); 
   var folderToken = PropertiesService.getUserProperties().getProperty("folderToken");
@@ -66,31 +59,50 @@ function main() {
     PropertiesService.getUserProperties().setProperty("fileToken", fileToken);
   }
   
-  var count = 1;
   
   while (folderIterator.hasNext()){
     check(folderIterator.next().getId(), false, root, lostfound, user);
-    folderToken = folderIterator.getContinuationToken();
-    count++;
-    if (count%100 == 0){
-      count = 1;
+    var now = time.getTime();
+    
+    if (now-startTime > 300000){
+      folderToken = folderIterator.getContinuationToken();
       PropertiesService.getUserProperties().setProperty("folderToken", folderToken);
+      
+      ScriptApp.newTrigger('main')
+      .timeBased()
+      .after(15*60*1000)
+      .create();
+      
+      return;
     }
+    
   }
   
   while (fileIterator.hasNext()){
     check(fileIterator.next().getId(),true, root, lostfound, user);
-    fileToken = folderIterator.getContinuationToken();
-    if (count%100 == 0){
-      count = 1;
+    var now = time.getTime();
+    if (now-startTime > 300000){
+      fileToken = folderIterator.getContinuationToken();
       PropertiesService.getUserProperties().setProperty("fileToken", fileToken);
-    }
+      
+      ScriptApp.newTrigger('main')
+      .timeBased()
+      .after(15*60*1000)
+      .create();
+      
+      return;
+    }  
   }
   
   folderToken = "0";
   PropertiesService.getUserProperties().setProperty("folderToken", folderToken);
   fileToken = "0";
   PropertiesService.getUserProperties().setProperty("fileToken", fileToken);
+  
+  ScriptApp.newTrigger('main')
+  .timeBased()
+  .after(12*60*60*1000)
+  .create();
   
 }
 
