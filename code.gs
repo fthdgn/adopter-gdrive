@@ -1,5 +1,7 @@
 function doGet() {
- 
+  
+  setMainTrigger ();
+  
   ScriptApp.newTrigger('main')
   .timeBased()
   .after(10)
@@ -12,10 +14,10 @@ function doGet() {
 function main() { 
   var time = new Date();
   var startTime = time.getTime();
-  var triggers = ScriptApp.getProjectTriggers();
-  for (var count = 0; count < triggers.length; count++){
-    ScriptApp.deleteTrigger(triggers[count]); 
-  }
+  Logger.clear();
+  Logger.log('Start time %s', startTime);
+  
+  setMainTrigger ();
   
   var user = Session.getActiveUser().getEmail();
   var root = DriveApp.getRootFolder(); 
@@ -62,12 +64,13 @@ function main() {
   
   while (folderIterator.hasNext()){
     check(folderIterator.next().getId(), false, root, lostfound, user);
+    var time = new Date();
     var now = time.getTime();
-    
-    if (now-startTime > 300000){
+    Logger.log('Now %s', now-startTime);
+    if (now-startTime > 5*60*1000){
       folderToken = folderIterator.getContinuationToken();
       PropertiesService.getUserProperties().setProperty("folderToken", folderToken);
-      
+ 
       ScriptApp.newTrigger('main')
       .timeBased()
       .after(15*60*1000)
@@ -80,8 +83,10 @@ function main() {
   
   while (fileIterator.hasNext()){
     check(fileIterator.next().getId(),true, root, lostfound, user);
+    var time = new Date();
     var now = time.getTime();
-    if (now-startTime > 300000){
+  Logger.log('Now %s', now-startTime);
+    if (now-startTime > 5*60*1000){
       fileToken = folderIterator.getContinuationToken();
       PropertiesService.getUserProperties().setProperty("fileToken", fileToken);
       
@@ -98,11 +103,6 @@ function main() {
   PropertiesService.getUserProperties().setProperty("folderToken", folderToken);
   fileToken = "0";
   PropertiesService.getUserProperties().setProperty("fileToken", fileToken);
-  
-  ScriptApp.newTrigger('main')
-  .timeBased()
-  .after(12*60*60*1000)
-  .create();
   
 }
 
@@ -155,4 +155,17 @@ function check(id, isFile, root, lostfound, user) {
     lostfound.addFolder(f);
   
   return true;
+}
+
+function setMainTrigger () {
+  var triggers = ScriptApp.getProjectTriggers();
+  for (var count = 0; count < triggers.length; count++){
+    ScriptApp.deleteTrigger(triggers[count]); 
+  }
+  
+  ScriptApp.newTrigger('main')
+  .timeBased()
+  .everyHours(12)
+  .create();
+  
 }
