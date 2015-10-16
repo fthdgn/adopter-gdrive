@@ -12,12 +12,16 @@ function doGet() {
 }
 
 function main() { 
+  var VERSION = 1;
+  
+  var PRE_VER = PropertiesService.getUserProperties().getProperty("version");
+  
+  if (PRE_VER != VERSION) {
+    onUpdate(VERSION);
+  }
+  
   var time = new Date();
   var startTime = time.getTime();
-  Logger.clear();
-  Logger.log('Start time %s', startTime);
-  
-  setMainTrigger ();
   
   var user = Session.getActiveUser().getEmail();
   var root = DriveApp.getRootFolder(); 
@@ -25,6 +29,7 @@ function main() {
   var fileToken = PropertiesService.getUserProperties().getProperty("fileToken");
   var lostfoundid = PropertiesService.getUserProperties().getProperty("lostfoundid");
   var lostfound;
+  
   
   try {
     lostfound = DriveApp.getFolderById(lostfoundid);
@@ -66,43 +71,34 @@ function main() {
     check(folderIterator.next().getId(), false, root, lostfound, user);
     var time = new Date();
     var now = time.getTime();
-    Logger.log('Now %s', now-startTime);
-    if (now-startTime > 5*60*1000){
+    if (now-startTime > 275000 ){
       folderToken = folderIterator.getContinuationToken();
       PropertiesService.getUserProperties().setProperty("folderToken", folderToken);
- 
-      ScriptApp.newTrigger('main')
-      .timeBased()
-      .after(15*60*1000)
-      .create();
-      
       return;
     }
     
   }
   
+  folderToken = folderIterator.getContinuationToken();
+  PropertiesService.getUserProperties().setProperty("folderToken", folderToken);
+
+  
+  
   while (fileIterator.hasNext()){
-    check(fileIterator.next().getId(),true, root, lostfound, user);
+    check(fileIterator.next().getId(), true, root, lostfound, user);
     var time = new Date();
     var now = time.getTime();
-  Logger.log('Now %s', now-startTime);
-    if (now-startTime > 5*60*1000){
-      fileToken = folderIterator.getContinuationToken();
+    if (now-startTime > 275000 ){
+      fileToken = fileIterator.getContinuationToken();
       PropertiesService.getUserProperties().setProperty("fileToken", fileToken);
-      
-      ScriptApp.newTrigger('main')
-      .timeBased()
-      .after(15*60*1000)
-      .create();
-      
       return;
     }  
   }
   
-  folderToken = "0";
-  PropertiesService.getUserProperties().setProperty("folderToken", folderToken);
-  fileToken = "0";
-  PropertiesService.getUserProperties().setProperty("fileToken", fileToken);
+  
+  PropertiesService.getUserProperties().setProperty("folderToken", 0);
+  PropertiesService.getUserProperties().setProperty("fileToken", 0);
+
   
 }
 
@@ -130,9 +126,7 @@ function check(id, isFile, root, lostfound, user) {
   else {
     while(parents.hasNext()) {
       var parent = parents.next();
-      // Its parent is not trashed.
-      // If the parent is orphan, its turn will be come.
-      // If the parent is not orphan, then this folder also not orphan.
+      // Its parent is not trashed, thus the fate of this file/folder is dependent on its parent.
       if (!parent.isTrashed())
         return false;
       
@@ -165,7 +159,12 @@ function setMainTrigger () {
   
   ScriptApp.newTrigger('main')
   .timeBased()
-  .everyHours(12)
+  .everyHours(2)
   .create();
   
+}
+
+function onUpdate (ver) {
+  setMainTrigger();
+  PropertiesService.getUserProperties().setProperty("version", ver);
 }
