@@ -1,5 +1,6 @@
 #!!!DEPRECATED!!!
 Google has implemented a way to find orphaned files and directories. Search "is:unorganized" on Google Drive to find orphaned files and folders. You can narrow search by using "is:unorganized owner:me" or "type:folder is:unorganized".
+For more detailed information: https://support.google.com/a/answer/6008339?hl=en
 
 # Orphan File Finder for Google Drive
 This is a Google Apps Script which finds orphan files and folders on one's Google Drive.
